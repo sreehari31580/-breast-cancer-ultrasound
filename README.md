@@ -49,6 +49,10 @@ This project implements a state-of-the-art deep learning model for classifying b
 
 ### Installation
 
+> **⚠️ Important**: The trained model file (`fixed_best_model.pth`) is too large for GitHub. Please download it separately from the [Releases page](https://github.com/sreehari31580/-breast-cancer-ultrasound/releases) or contact the repository owner.
+
+```
+
 1. **Clone the repository**
 ```bash
 git clone https://github.com/yourusername/breast-cancer-ultrasound.git

@@ -23,24 +23,13 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual Environment
+# Virtual environments
 venv/
 env/
 ENV/
+env.bak/
+venv.bak/
 .venv/
-.env/
-
-# PyTorch Models (for development - keep only best model)
-*.pth
-!fixed_best_model.pth
-
-# Datasets (users should download their own)
-Dataset_BUSI_with_GT/
-atlas/
-cnn_data/
-
-# Jupyter Notebook
-.ipynb_checkpoints
 
 # IDE
 .vscode/
@@ -59,16 +48,51 @@ ehthumbs.db
 Thumbs.db
 
 # Development files
-debug_*
-test_*
-*.log
-*.db
+test_*.py
+*_test.py
+debug_*.py
+*_debug.py
+dev_*.py
+*_dev.py
 
-# Model outputs
-gradcam_outputs/
-results/
+# Model files (too large for git, use LFS or download separately)
+*.pth
+best_model_*.pth
+model_*.pth
+
+# Data directories
+Dataset_*/
+data/
+datasets/
+raw_data/
+
+# Output directories
 outputs/
+results/
+logs/
+checkpoints/
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
 
 # Temporary files
 *.tmp
 *.temp
+*.log
+
+# Documentation build
+docs/_build/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
