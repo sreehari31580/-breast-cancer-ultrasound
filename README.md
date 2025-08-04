@@ -302,10 +302,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Author**: [Your Name]
-- **Email**: [your.email@example.com]
-- **LinkedIn**: [Your LinkedIn Profile]
-- **Project Link**: [https://github.com/yourusername/breast-cancer-ultrasound](https://github.com/yourusername/breast-cancer-ultrasound)
+- **Author**: Sreehari VS
+- **Email**: Sreeharivs31580@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/sreehari-vs/
+- **Project Link**: https://github.com/sreehari31580/-breast-cancer-ultrasound.git
 
 ## 🔗 Related Work
 
