@@ -1,0 +1,234 @@
+name: Pull Request
+description: Submit a pull request to contribute to the project
+title: ""
+labels: ["needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing to the breast cancer ultrasound classification project! 
+        Please fill out this template to help us review your changes effectively.
+
+  - type: dropdown
+    id: pr-type
+    attributes:
+      label: Type of Change
+      description: What type of change does this PR introduce?
+      options:
+        - Bug fix (non-breaking change that fixes an issue)
+        - New feature (non-breaking change that adds functionality)
+        - Breaking change (fix or feature that would cause existing functionality to not work as expected)
+        - Documentation update
+        - Performance improvement
+        - Code refactoring
+        - Test improvements
+        - CI/CD improvements
+        - Security fix
+        - Dependencies update
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe the changes you made and why
+      placeholder: |
+        What does this PR do?
+        Why is this change needed?
+        How does it work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues
+      description: Link any related issues
+      placeholder: |
+        Fixes #123
+        Closes #456
+        Related to #789
+
+  - type: checkboxes
+    id: testing
+    attributes:
+      label: Testing
+      description: How has this been tested?
+      options:
+        - label: I have run the validation suite (`python webapp_validation_suite.py`)
+        - label: I have tested the web application manually
+        - label: I have run unit tests
+        - label: I have tested with different image types
+        - label: I have tested on different operating systems
+        - label: I have tested performance impact
+        - label: I have tested edge cases
+
+  - type: textarea
+    id: test-details
+    attributes:
+      label: Test Details
+      description: Provide details about your testing
+      placeholder: |
+        Test environment:
+        - OS: Ubuntu 20.04
+        - Python: 3.9.16
+        - PyTorch: 2.0.1
+        
+        Test results:
+        - Validation suite: ✅ All tests passed
+        - Manual testing: ✅ Verified functionality works
+        - Performance: No degradation observed
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm you have completed the following
+      options:
+        - label: My code follows the project's style guidelines
+        - label: I have performed a self-review of my code
+        - label: I have commented my code, particularly in hard-to-understand areas
+        - label: I have made corresponding changes to the documentation
+        - label: My changes generate no new warnings
+        - label: I have added tests that prove my fix is effective or that my feature works
+        - label: New and existing unit tests pass locally with my changes
+        - label: Any dependent changes have been merged and published
+
+  - type: textarea
+    id: model-impact
+    attributes:
+      label: Model Impact (if applicable)
+      description: Does this change affect model performance or behavior?
+      placeholder: |
+        - Model accuracy: No change / Improved by X%
+        - Inference speed: No change / Faster by X% / Slower by X%
+        - Memory usage: No change / Reduced by X% / Increased by X%
+        - Compatibility: Maintains backward compatibility / Breaking change
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots/Examples
+      description: If applicable, add screenshots or examples to demonstrate the changes
+      placeholder: |
+        Before:
+        [Screenshot or example]
+        
+        After:
+        [Screenshot or example]
+
+  - type: dropdown
+    id: breaking-changes
+    attributes:
+      label: Breaking Changes
+      description: Does this PR introduce any breaking changes?
+      options:
+        - "No"
+        - "Yes - but provides migration path"
+        - "Yes - major breaking change"
+    validations:
+      required: true
+
+  - type: textarea
+    id: breaking-details
+    attributes:
+      label: Breaking Changes Details
+      description: If yes, please describe the breaking changes and migration path
+      placeholder: |
+        What breaks:
+        - API changes: ...
+        - Configuration changes: ...
+        - Dependencies: ...
+        
+        Migration path:
+        1. Step 1: ...
+        2. Step 2: ...
+
+  - type: textarea
+    id: deployment-notes
+    attributes:
+      label: Deployment Notes
+      description: Any special instructions for deploying this change?
+      placeholder: |
+        - Environment variables to update: ...
+        - Database migrations needed: ...
+        - Configuration changes required: ...
+        - Dependencies to install: ...
+
+  - type: checkboxes
+    id: security-review
+    attributes:
+      label: Security Review
+      description: Security considerations (check if applicable)
+      options:
+        - label: This change involves user input handling
+        - label: This change involves file uploads/processing
+        - label: This change involves authentication/authorization
+        - label: This change involves external API calls
+        - label: This change involves sensitive data processing
+        - label: No security implications
+
+  - type: textarea
+    id: performance-impact
+    attributes:
+      label: Performance Impact
+      description: How does this change affect performance?
+      placeholder: |
+        Memory usage: [Measured impact]
+        CPU usage: [Measured impact]
+        Response time: [Measured impact]
+        Model inference speed: [Measured impact]
+        
+        Benchmarks:
+        - Before: ...
+        - After: ...
+
+  - type: textarea
+    id: future-work
+    attributes:
+      label: Future Work
+      description: Are there any follow-up tasks or related work needed?
+      placeholder: |
+        - Additional features to implement: ...
+        - Technical debt to address: ...
+        - Documentation to update: ...
+        - Related issues to create: ...
+
+  - type: checkboxes
+    id: documentation
+    attributes:
+      label: Documentation
+      description: Documentation updates included
+      options:
+        - label: README.md updated
+        - label: API documentation updated
+        - label: Code comments added/updated
+        - label: Installation guide updated
+        - label: Deployment guide updated
+        - label: No documentation changes needed
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: Additional Notes
+      description: Any other information reviewers should know
+      placeholder: |
+        - Known limitations: ...
+        - Design decisions: ...
+        - Alternative approaches considered: ...
+        - External dependencies: ...
+
+  - type: checkboxes
+    id: final-checks
+    attributes:
+      label: Final Checks
+      description: Before submitting
+      options:
+        - label: I have read the contributing guidelines
+        - label: I confirm this is not a duplicate PR
+        - label: I have tested this change thoroughly
+        - label: I am ready for code review
+        - label: I will be responsive to review feedback

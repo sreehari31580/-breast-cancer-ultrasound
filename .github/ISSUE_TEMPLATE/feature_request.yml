@@ -1,0 +1,239 @@
+name: Feature Request
+description: Suggest a new feature or enhancement
+title: "[FEATURE] "
+labels: ["enhancement", "needs-discussion"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! Your ideas help make this project better for everyone.
+
+  - type: checkboxes
+    id: pre-check
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm you have completed these steps
+      options:
+        - label: I have searched existing issues and discussions for similar requests
+          required: true
+        - label: I have reviewed the project roadmap and documentation
+          required: true
+        - label: This feature aligns with the project's goals of medical AI advancement
+          required: true
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: Feature Category
+      description: What category does this feature belong to?
+      options:
+        - Model/Algorithm Improvement
+        - Web Application Enhancement
+        - New Visualization Feature
+        - Performance Optimization
+        - Dataset/Data Processing
+        - Deployment/Infrastructure
+        - Documentation
+        - Developer Tools
+        - Integration/API
+        - Mobile Support
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What is the current limitation?
+      placeholder: |
+        Currently, users cannot... 
+        This makes it difficult to...
+        The impact is...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your proposed solution in detail
+      placeholder: |
+        I suggest implementing...
+        This would work by...
+        The user experience would be...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative-solutions
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: |
+        Alternative approach 1: ...
+        Alternative approach 2: ...
+        Trade-offs: ...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would significantly improve my workflow
+        - High - Critical for my use case
+        - Urgent - Blocking my work
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-type
+    attributes:
+      label: User Type
+      description: What type of user would benefit from this feature?
+      multiple: true
+      options:
+        - Medical Professionals
+        - Researchers/Academics
+        - Software Developers
+        - Students/Educators
+        - Data Scientists
+        - End Users (General Public)
+        - System Administrators
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use Cases
+      description: Provide specific examples of how this feature would be used
+      placeholder: |
+        Use case 1: A radiologist wants to...
+        Use case 2: A researcher needs to...
+        Use case 3: A student could...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What would need to be implemented for this feature to be considered complete?
+      placeholder: |
+        - [ ] User can do X
+        - [ ] System responds with Y
+        - [ ] Performance meets Z criteria
+        - [ ] Documentation is updated
+        - [ ] Tests are included
+
+  - type: dropdown
+    id: technical-complexity
+    attributes:
+      label: Estimated Technical Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Low - Simple configuration or UI change
+        - Medium - Requires new code but uses existing patterns
+        - High - Requires significant new functionality
+        - Very High - Requires research or major architectural changes
+        - Unknown - Not sure about implementation complexity
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical requirements, constraints, or considerations?
+      placeholder: |
+        - Performance requirements: ...
+        - Compatibility needs: ...
+        - Security considerations: ...
+        - Dependencies: ...
+
+  - type: textarea
+    id: mockups-examples
+    attributes:
+      label: Mockups/Examples
+      description: Include any mockups, wireframes, or examples that illustrate your idea
+      placeholder: |
+        - Attach images, diagrams, or links
+        - Reference similar features in other applications
+        - Provide example inputs/outputs
+
+  - type: dropdown
+    id: timeline
+    attributes:
+      label: Desired Timeline
+      description: When would you ideally like to see this feature implemented?
+      options:
+        - No rush - whenever possible
+        - Next month
+        - Next quarter
+        - Next major release
+        - ASAP - urgent need
+
+  - type: textarea
+    id: impact-analysis
+    attributes:
+      label: Impact Analysis
+      description: How would this feature impact the project and its users?
+      placeholder: |
+        Positive impacts:
+        - Improved user experience for...
+        - Better performance in...
+        - New capabilities for...
+        
+        Potential concerns:
+        - Increased complexity in...
+        - Resource requirements...
+        - Maintenance burden...
+
+  - type: checkboxes
+    id: implementation-help
+    attributes:
+      label: Implementation Support
+      description: How can you help with implementing this feature?
+      options:
+        - label: I can contribute code/implementation
+        - label: I can help with testing
+        - label: I can provide domain expertise/requirements
+        - label: I can help with documentation
+        - label: I can provide funding/sponsorship
+        - label: I can connect you with relevant experts
+        - label: I can only provide feedback and suggestions
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that would be helpful
+      placeholder: |
+        - Links to relevant research papers
+        - References to similar implementations
+        - Related GitHub issues or discussions
+        - Medical/clinical context
+        - Real-world usage scenarios
+
+  - type: checkboxes
+    id: breaking-changes
+    attributes:
+      label: Breaking Changes
+      description: Implementation considerations
+      options:
+        - label: This feature could potentially require breaking changes
+        - label: This feature should maintain backward compatibility
+        - label: I'm not sure about backward compatibility impact
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How would we measure the success of this feature?
+      placeholder: |
+        - User adoption rate
+        - Performance improvements
+        - Accuracy metrics
+        - User satisfaction scores
+        - Specific KPIs: ...

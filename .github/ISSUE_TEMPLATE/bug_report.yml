@@ -1,0 +1,203 @@
+name: Bug Report
+description: Report a bug or issue with the application
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible to help us reproduce and fix the issue.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm you have completed these steps
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have tested with the latest version of the code
+          required: true
+        - label: I have read the documentation and troubleshooting guide
+          required: true
+
+  - type: dropdown
+    id: bug-type
+    attributes:
+      label: Bug Category
+      description: What type of issue are you experiencing?
+      options:
+        - Model Loading/Inference
+        - Web Application (Streamlit)
+        - Image Processing/Preprocessing
+        - GradCAM Visualization
+        - Installation/Dependencies
+        - Performance Issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe what happened and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Please provide detailed steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Upload image '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: A clear description of what actually happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Messages/Logs
+      description: If applicable, paste any error messages or relevant log output
+      render: shell
+      placeholder: |
+        Paste error messages here...
+
+  - type: dropdown
+    id: environment-os
+    attributes:
+      label: Operating System
+      options:
+        - Windows 10
+        - Windows 11
+        - macOS Big Sur
+        - macOS Monterey
+        - macOS Ventura
+        - Ubuntu 18.04
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Other Linux
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: What version of Python are you using?
+      placeholder: "e.g., 3.9.16"
+    validations:
+      required: true
+
+  - type: input
+    id: torch-version
+    attributes:
+      label: PyTorch Version
+      description: What version of PyTorch do you have installed?
+      placeholder: "e.g., 2.0.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device Type
+      description: What device are you running the model on?
+      options:
+        - CPU only
+        - NVIDIA GPU (CUDA)
+        - AMD GPU (ROCm)
+        - Apple Silicon (M1/M2)
+        - Google Colab
+        - Other cloud platform
+    validations:
+      required: true
+
+  - type: textarea
+    id: device-details
+    attributes:
+      label: Device Details
+      description: Additional device information (GPU model, memory, etc.)
+      placeholder: |
+        e.g., NVIDIA GTX 1080 Ti, 11GB VRAM
+        or Apple M1 MacBook Pro, 16GB RAM
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment Environment
+      description: Where are you running the application?
+      options:
+        - Local development
+        - Docker container
+        - Streamlit Cloud
+        - Heroku
+        - AWS
+        - Google Cloud
+        - Other cloud platform
+
+  - type: textarea
+    id: image-details
+    attributes:
+      label: Image Details (if applicable)
+      description: If the bug is related to specific images, provide details
+      placeholder: |
+        - Image format: PNG/JPG
+        - Image size: 512x512
+        - File size: 2MB
+        - Image source: BUSI dataset / Custom image
+
+  - type: textarea
+    id: validation-results
+    attributes:
+      label: Validation Suite Results
+      description: If you ran the validation suite, paste the results
+      render: shell
+      placeholder: |
+        Run: python webapp_validation_suite.py
+        Paste results here...
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or information about the problem
+      placeholder: |
+        - Screenshots (if applicable)
+        - Related issues or discussions
+        - Workarounds you've tried
+        - Impact on your use case
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be interested in contributing to fix this issue?
+      options:
+        - label: I would be willing to submit a pull request to fix this bug
+        - label: I need guidance on how to fix this issue
+        - label: I can provide additional testing or information

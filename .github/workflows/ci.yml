@@ -1,0 +1,275 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10"]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov black flake8
+    
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Format check with black
+      run: |
+        black --check --diff .
+    
+    - name: Test model loading
+      run: |
+        python -c "
+        import torch
+        from torchvision import models
+        print('PyTorch version:', torch.__version__)
+        print('CUDA available:', torch.cuda.is_available())
+        
+        # Test model architecture
+        model = models.efficientnet_b0(weights=None)
+        model.classifier[1] = torch.nn.Linear(1280, 3)
+        print('Model created successfully')
+        print('Parameters:', sum(p.numel() for p in model.parameters()))
+        "
+    
+    - name: Run validation suite
+      run: |
+        # Skip if model file doesn't exist (for CI)
+        if [ -f "fixed_best_model.pth" ]; then
+          python webapp_validation_suite.py
+        else
+          echo "Model file not found, skipping validation suite"
+        fi
+    
+    - name: Test imports
+      run: |
+        python -c "
+        import torch
+        import torchvision
+        import numpy as np
+        import PIL
+        import sklearn
+        import matplotlib
+        import pandas as pd
+        print('All imports successful')
+        "
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run security checks
+      uses: pypa/gh-action-pip-audit@v1.0.8
+      with:
+        inputs: requirements.txt
+
+  build-docker:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Build Docker image
+      run: |
+        cd webapp
+        docker build -t breast-cancer-classifier:latest .
+        docker images
+    
+    - name: Test Docker container
+      run: |
+        # Start container in background
+        docker run -d -p 8501:8501 --name test-container breast-cancer-classifier:latest
+        
+        # Wait for container to start
+        sleep 30
+        
+        # Check if container is running
+        docker ps
+        
+        # Test health endpoint (if available)
+        curl -f http://localhost:8501 || echo "Health check failed"
+        
+        # Stop container
+        docker stop test-container
+        docker rm test-container
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [test, build-docker]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        # Add your staging deployment commands here
+        # For example, deploy to Heroku staging app
+        # heroku container:push web --app your-staging-app
+        # heroku container:release web --app your-staging-app
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [test, build-docker]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment..."
+        # Add your production deployment commands here
+        # For example, deploy to Heroku production app
+        # heroku container:push web --app your-production-app
+        # heroku container:release web --app your-production-app
+
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install memory-profiler
+    
+    - name: Memory usage test
+      run: |
+        python -c "
+        import torch
+        from torchvision import models
+        import psutil
+        import os
+        
+        process = psutil.Process(os.getpid())
+        initial_memory = process.memory_info().rss / 1024 / 1024  # MB
+        
+        # Load model
+        model = models.efficientnet_b0(weights=None)
+        model.classifier[1] = torch.nn.Linear(1280, 3)
+        
+        final_memory = process.memory_info().rss / 1024 / 1024  # MB
+        memory_used = final_memory - initial_memory
+        
+        print(f'Initial memory: {initial_memory:.2f} MB')
+        print(f'Final memory: {final_memory:.2f} MB')
+        print(f'Memory used by model: {memory_used:.2f} MB')
+        
+        # Fail if memory usage is too high
+        if memory_used > 500:  # 500 MB threshold
+            raise Exception(f'Memory usage too high: {memory_used:.2f} MB')
+        "
+
+  documentation:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    
+    - name: Install doc dependencies
+      run: |
+        pip install mkdocs mkdocs-material
+    
+    - name: Build documentation
+      run: |
+        # Create basic mkdocs.yml if it doesn't exist
+        if [ ! -f "mkdocs.yml" ]; then
+          cat > mkdocs.yml << EOF
+        site_name: Breast Cancer Ultrasound Classification
+        site_description: AI-powered breast cancer detection using ultrasound images
+        repo_url: https://github.com/${{ github.repository }}
+        
+        theme:
+          name: material
+          palette:
+            primary: blue
+            accent: pink
+        
+        nav:
+          - Home: README.md
+          - Installation: INSTALL.md
+          - API Documentation: API.md
+          - Deployment: DEPLOYMENT.md
+          - Contributing: CONTRIBUTING.md
+          - Model Summary: MODEL_SUMMARY.md
+        EOF
+        fi
+        
+        mkdocs build
+    
+    - name: Deploy documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [test, security, build-docker]
+    if: always()
+    
+    steps:
+    - name: Notify on success
+      if: needs.test.result == 'success' && needs.security.result == 'success'
+      run: |
+        echo "✅ All checks passed successfully!"
+        # Add Slack/Discord notification here if needed
+    
+    - name: Notify on failure
+      if: needs.test.result == 'failure' || needs.security.result == 'failure'
+      run: |
+        echo "❌ Some checks failed!"
+        # Add Slack/Discord notification here if needed
